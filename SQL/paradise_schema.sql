@@ -255,6 +255,14 @@ CREATE TABLE `player` (
   `nanoui_fancy` smallint(4) DEFAULT '1',
   `show_ghostitem_attack` smallint(4) DEFAULT '1',
   `lastchangelog` varchar(32) NOT NULL DEFAULT '0',
+  `whitelisted` tinyint(1) DEFAULT '0',
+  `wl_application` tinyint(1) DEFAULT '0',
+  `answer1` mediumtext NOT NULL,
+  `answer2` mediumtext NOT NULL,
+  `answer3` mediumtext NOT NULL,
+  `answer4` mediumtext NOT NULL,
+  `answer5` mediumtext NOT NULL,
+  `answer6` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ckey` (`ckey`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32446 DEFAULT CHARSET=latin1;

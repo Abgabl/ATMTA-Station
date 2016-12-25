@@ -2125,6 +2125,7 @@
 #include "hyntatmta\code\modules\karma\karma_item.dm"
 #include "hyntatmta\code\modules\reagents\reagent_containers\food\drinks.dm"
 #include "hyntatmta\code\modules\reagents\reagent_containers\food\snacks.dm"
+#include "hyntatmta\code\modules\whitelist\data_processing.dm"
 #include "hyntatmta\code\modules\whitelist\panel.dm"
 #include "hyntatmta\code\modules\whitelist\whitelist.dm"
 #include "interface\interface.dm"
