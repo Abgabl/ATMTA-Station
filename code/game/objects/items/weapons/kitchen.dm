@@ -102,11 +102,57 @@
 	no_embed = 1
 	sharp = 1
 	edge = 1
+	var/onethousanddegree = 0
+
+/obj/item/weapon/kitchen/knife/proc/clickbait_magic()
+	if(onethousanddegree)
+		name = "ONE THOUSAND DEGREE KNIFE"
+		onethousanddegree = 0
+		icon_state = initial(icon_state)
+	else
+		name = initial(name)
+		onethousanddegree = 1
+		icon_state = "[initial(icon_state)]_glowing"
+
+
+/obj/item/weapon/kitchen/knife/afterattack(atom/target, mob/user, flag)
+	..()
+	if(onethousanddegree)
+		if(istype(target, /mob/living/carbon))
+			var/mob/living/carbon/M = target
+			M.adjust_fire_stacks(1)
+			M.IgniteMob()
+		if(istype(target, /turf/simulated/wall))
+			var/turf/simulated/wall/W = target
+			W.adjacent_fire_act(target, 1273)
+		if(istype(target, /turf/simulated/floor))
+			var/turf/simulated/floor/F = target
+			F.burn_tile()
+		else
+			target.fire_act()
+		to_chat(user, "Knife lost his magic ONE THOUSAND DEGREE power!")
+		clickbait_magic()
+
+/obj/item/weapon/kitchen/knife/attackby(obj/item/weapon/W, mob/user, params)
+	..()
+	if(!onethousanddegree)
+		if(istype(W, /obj/item/weapon/weldingtool) && W:welding || istype(W,/obj/item/weapon/lighter) && W:lit)
+			clickbait_magic()
+			to_chat(user, "WOW! You made your knife hot, like ONE THOUSAND DEGREE hot!")
 
 /obj/item/weapon/kitchen/knife/suicide_act(mob/user)
-	user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the [src.name]! It looks like \he's trying to commit suicide.</span>", \
-						"<span class='suicide'>[user] is slitting \his throat with the [src.name]! It looks like \he's trying to commit suicide.</span>", \
-						"<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>"))
+	if(onethousanddegree)
+		user.visible_message("<span class='suicide'>[user] is putting himself versus [src.name]! It looks like \he's trying to commit suicidal EXPERIMENT!</span>")
+		clickbait_magic()
+		if(istype(user, /mob/living/carbon))
+			var/mob/living/carbon/M = user
+			M.adjust_fire_stacks(1)
+			M.IgniteMob()
+		to_chat(user, "Knife lost his magic ONE THOUSAND DEGREE power!")
+	else
+		user.visible_message(pick("<span class='suicide'>[user] is slitting \his wrists with the [src.name]! It looks like \he's trying to commit suicide.</span>", \
+							"<span class='suicide'>[user] is slitting \his throat with the [src.name]! It looks like \he's trying to commit suicide.</span>", \
+							"<span class='suicide'>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</span>"))
 	return (BRUTELOSS)
 
 /obj/item/weapon/kitchen/knife/plastic
@@ -117,12 +163,18 @@
 	sharp = 0
 	edge = 0
 
+/obj/item/weapon/kitchen/knife/plastic/clickbait_magic()
+	return
+
 /obj/item/weapon/kitchen/knife/ritual
 	name = "ritual knife"
 	desc = "The unearthly energies that once powered this blade are now dormant."
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "render"
 	w_class = 3
+
+/obj/item/weapon/kitchen/knife/ritual/clickbait_magic()
+	return
 
 /obj/item/weapon/kitchen/knife/butcher
 	name = "butcher's cleaver"
@@ -133,6 +185,9 @@
 	throwforce = 8
 	attack_verb = list("cleaved", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	w_class = 3
+
+/obj/item/weapon/kitchen/knife/butcher/clickbait_magic()
+	return
 
 /obj/item/weapon/kitchen/knife/butcher/meatcleaver
 	name = "Meat Cleaver"
@@ -152,6 +207,8 @@
 	origin_tech = "materials=2;combat=4"
 	attack_verb = list("slashed", "stabbed", "sliced", "torn", "ripped", "cut")
 
+/obj/item/weapon/kitchen/knife/combat/clickbait_magic()
+	return
 /*
  * Rolling Pins
  */
