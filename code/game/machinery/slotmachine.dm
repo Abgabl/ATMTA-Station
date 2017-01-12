@@ -47,14 +47,14 @@
 		if(operation == 1) // Play
 			if(working == 1)
 				return
-			if(!account || account.money < 10)
+			if(!account || account.money < 20)
 				return
-			if(!account.charge(10, transaction_purpose = "Bet", dest_name = name))
+			if(!account.charge(20, transaction_purpose = "Bet", dest_name = name))
 				return
 			plays += 1
 			working = 1
 			icon_state = "slots-on"
-			var/roll = rand(1,1350)
+			var/roll = rand(1,10000)
 			playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
 			spawn(25)
 				if(roll == 1)
@@ -63,37 +63,41 @@
 					result = "JACKPOT! You win one million credits!"
 					resultlvl = "highlight"
 					win_money(1000000, 'sound/goonstation/misc/airraid_loop.ogg')
-				else if(roll > 1 && roll <= 5)
+				else if(roll > 1 && roll <= 25)
 					visible_message("<b>[src]</b> says, 'Big Winner! [usr.name] has won a hundred thousand credits!'")
 					command_announcement.Announce("Congratulations to [usr.name] on winning a hundred thousand credits!", "Big Winner")
 					result = "Big Winner! You win a hundred thousand credits!"
 					resultlvl = "good"
 					win_money(100000, 'sound/goonstation/misc/klaxon.ogg')
-				else if(roll > 5 && roll <= 25)
+				else if(roll > 25 && roll <= 75)
 					visible_message("<b>[src]</b> says, 'Big Winner! [usr.name] has won ten thousand credits!'")
 					result = "You win ten thousand credits!"
 					resultlvl = "good"
 					win_money(10000, 'sound/goonstation/misc/klaxon.ogg')
-				else if(roll > 25 && roll <= 50)
+				else if(roll > 75 && roll <= 325)
 					visible_message("<b>[src]</b> says, 'Winner! [usr.name] has won a thousand credits!'")
 					result = "You win a thousand credits!"
 					resultlvl = "good"
 					win_money(1000, 'sound/goonstation/misc/bell.ogg')
-				else if(roll > 50 && roll <= 100)
+				else if(roll > 325 && roll <= 875)
+					result = "You lose a hungred credits!"
+					resultlvl = "bad"
+					win_money(-100, 'sound/goonstation/misc/bell.ogg')
+				else if(roll > 875 && roll <= 1375)
+					visible_message("<b>[src]</b> says, 'Winner! [usr.name] has won a five hundred credits!'")
+					result = "You win a five hundred credits!"
+					resultlvl = "good"
+					win_money(500, 'sound/goonstation/misc/bell.ogg')
+				else if(roll > 1375 && roll <= 1575)
 					visible_message("<b>[src]</b> says, 'Winner! [usr.name] has won a hundred credits!'")
 					result = "You win a hundred credits!"
 					resultlvl = "good"
 					win_money(100, 'sound/goonstation/misc/bell.ogg')
-				else if(roll > 100 && roll <= 200)
-					visible_message("<b>[src]</b> says, 'Winner! [usr.name] has won fifty credits!'")
-					result = "You win fifty credits!"
+				else if(roll > 2375 && roll <= 3375)
+					visible_message("<b>[src]</b> says, 'Winner! [usr.name] has won twenty credits!'")
+					result = "You win twenty credits!"
 					resultlvl = "good"
-					win_money(50)
-				else if(roll > 200 && roll <= 500)
-					visible_message("<b>[src]</b> says, 'Winner! [usr.name] has won ten credits!'")
-					result = "You win ten credits!"
-					resultlvl = "good"
-					win_money(10)
+					win_money(20)
 				else
 					result = "<span class='warning'>No luck!</span>"
 					resultlvl = "average"
